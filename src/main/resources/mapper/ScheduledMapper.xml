@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (c) 2022. By LIMEXC
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.limexc.oneapi.mapper.ScheduledMapper">
+
+    <select id="selectScheduledByTask" resultType="cn.limexc.oneapi.scheduled.model.Scheduled">
+        SELECT id, task, name, cron, status, remark, create_time, create_user
+        FROM t_cron
+        WHERE task = #{task}
+    </select>
+
+    <select id="selectScheduled" resultType="cn.limexc.oneapi.scheduled.model.Scheduled">
+        SELECT id, task, name, cron, status, remark, create_time, create_user
+        FROM t_cron
+        <where>
+                <if test="scheduled.status!=null and scheduled.status!=''">
+                    AND status = #{scheduled.status}
+                </if>
+                <if test="scheduled.task!=null and scheduled.task!=''">
+                    AND task = #{scheduled.task}
+                </if>
+                <if test="scheduled.cron!=null and scheduled.cron!=''">
+                    AND cron = #{scheduled.cron}
+                </if>
+                <if test="scheduled.createTime!=null and scheduled.createTime!=''">
+                    AND create_time = #{scheduled.createTime}
+                </if>
+                <if test="scheduled.createUser!=null and scheduled.createUser!=''">
+                    AND create_user = #{scheduled.createUser}
+                </if>
+                <if test="scheduled.id !=null and scheduled.id !=''">
+                    AND id = #{scheduled.id}
+                </if>
+                <if test="scheduled.name!=null and scheduled.name!=''">
+                    AND name = #{scheduled.name}
+                </if>
+                <if test="scheduled.remark!=null and scheduled.remark!=''">
+                    AND remark = #{scheduled.remark}
+                </if>
+        </where>
+    </select>
+</mapper>

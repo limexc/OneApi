@@ -1,0 +1,76 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysqlAddr:3306/info_center?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    password: password
+    username: username
+    druid:
+      initial-size: 3
+      min-idle: 5
+      max-active: 20
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 5000
+      stat-view-servlet:
+        enabled: true
+        login-username: username
+        login-password: password
+  data:
+    redis:
+      database: 10
+      host: redisHost
+      port: 6379
+      password: password
+      jedis:
+        pool:
+          max-active: 20
+          min-idle: 5
+          max-idle: 8
+          max-wait: -1
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+aliYun:
+  accessKeyId: accessKey
+  accessKeySecret: accessKeySecret
+
+# 心知天气
+seniverse:
+  public-key: public-key
+  private-key: private-key
+
+# 腾讯云
+tencent:
+  appid: appid
+  SecretId: SecretId
+  SecretKey: SecretKey
+
+# B2文件存储
+backblaze:
+  s3:
+    bucketName: xxxxxx
+    endpoint: https://s3.eu-central-003.backblazeb2.com/
+    accessKey: accessKey
+    SecretKey: accessKeySecret
+
+
+task:
+  enabled: true
+
+jasypt:
+  encryptor:
+    password: xxxxxx  #盐值
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    pool-size: 3

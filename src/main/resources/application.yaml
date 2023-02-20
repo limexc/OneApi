@@ -1,0 +1,23 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /api
+    encoding:
+      enabled: true
+      force: true
+      charset: utf-8
+
+spring:
+  application:
+    name: oneapi
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: xxxxxxxx
+      config:
+        group: DEFAULT_GROUP
+        server-addr: xxxxxxxxx
+  config:
+    import:
+      - optional:nacos:xxxxxxx.yaml

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.limexc.oneapi.mapper.MobileNumberBaseMapper">
+
+    <resultMap id="MobileNumberBase" type="cn.limexc.oneapi.pojo.MobileNumberBaseVO">
+        <result column="paragraph" property="paragraph" />
+        <result column="prefix" property="prefix" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="isp" property="isp" />
+        <result column="zip_code" property="zipCode" />
+        <result column="zone_description" property="zoneDescription" />
+    </resultMap>
+
+    <select id="selectMobileNumberBase" resultMap="MobileNumberBase">
+        SELECT paragraph, prefix, province, city, isp, zip_code, zone_description FROM t_mobile_number_base WHERE paragraph = #{mobileNumber}
+    </select>
+</mapper>

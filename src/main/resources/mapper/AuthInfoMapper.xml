@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022. By LIMEXC
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.limexc.oneapi.mapper.AuthInfoMapper">
+
+    <resultMap id="AuthResMap" type="cn.limexc.oneapi.pojo.AuthInfoVO">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="siteName" column="site_name" jdbcType="VARCHAR"/>
+            <result property="jobName" column="job_name" jdbcType="VARCHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="authenticationMethod" column="authentication_method" jdbcType="VARCHAR"/>
+            <result property="authentication" column="authentication" jdbcType="VARCHAR"/>
+            <result property="contentType" column="content_type" jdbcType="VARCHAR"/>
+            <result property="isHealthy" column="is_healthy" jdbcType="INTEGER"/>
+            <result property="userAgent" column="user_agent" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectAuthInfo" resultMap="AuthResMap" >
+        SELECT
+            id, site_name, job_name, url, method,
+            authentication_method, authentication,
+            content_type, is_healthy, user_agent,
+            create_time, update_time, create_user
+        FROM t_auth_info
+        WHERE id = #{id}
+        LIMIT 1
+    </select>
+
+</mapper>

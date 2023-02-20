@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.limexc.oneapi.mapper.SystemLogMapper">
+
+
+    <insert id="insertSystemLogData">
+        insert into t_system_log
+            (domain, method, api_name, ip_addr, device, url, total_time, time, nation, province, city, param, result, browser, os_type,api_method,browser_version)
+            VALUE
+            (#{log.domain}, #{log.method}, #{log.apiName},#{log.ipAddr},#{log.device}, #{log.url}, #{log.totalTime},
+            now(), #{log.nation}, #{log.province}, #{log.city}, #{log.param}, #{log.result}, #{log.browser}, #{log.osType},#{log.apiMethod},#{log.browserVersion})
+
+    </insert>
+</mapper>

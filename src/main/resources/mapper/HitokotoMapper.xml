@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.limexc.oneapi.mapper.HitokotoMapper">
+    <resultMap id="BaseResultMap" type="cn.limexc.oneapi.pojo.HitokotoVO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+        <result property="hitokoto" column="hitokoto" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="from" column="from" jdbcType="VARCHAR"/>
+        <result property="fromWho" column="from_who" jdbcType="VARCHAR"/>
+        <result property="creator" column="creator" jdbcType="VARCHAR"/>
+        <result property="creatorUid" column="creator_uid" jdbcType="VARCHAR"/>
+        <result property="reviewer" column="reviewer" jdbcType="VARCHAR"/>
+        <result property="commitFrom" column="commit_from" jdbcType="VARCHAR"/>
+        <result property="createdAt" column="created_at" jdbcType="BIGINT"/>
+        <result property="length" column="length" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="selectHitokotoDefault" resultMap="BaseResultMap">
+        SELECT id, uuid, hitokoto, type, `from`, from_who, creator, creator_uid, reviewer, commit_from, created_at, length
+        FROM T_HITOKOTO
+        WHERE ID = #{id}
+    </select>
+
+    <select id="selectHitokoto" resultMap="BaseResultMap">
+        SELECT id, uuid, hitokoto, type, `from`, from_who, creator, creator_uid, reviewer, commit_from, created_at, length
+        FROM T_HITOKOTO
+        <where>
+        <if test="param !='' and param != null">
+            <if test="param.type!='' and param.type != null">
+                AND type in
+                <foreach item="item" index="index" collection="param.type.split(',')"  open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="param.minLength!='' and param.minLength!=null">
+                AND length &gt;= #{param.minLength}
+            </if>
+            <if test="param.maxLength!='' and param.maxLength!=null">
+                AND length &lt;= #{param.maxLength}
+            </if>
+        </if>
+        </where>
+    </select>
+
+
+</mapper>

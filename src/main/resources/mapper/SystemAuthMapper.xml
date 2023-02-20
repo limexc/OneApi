@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2022-2023. By LIMEXC
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.limexc.oneapi.mapper.SystemAuthMapper">
+
+
+
+    <select id="selectUserByUserLogin" resultType="cn.limexc.oneapi.pojo.UserVO" >
+        SELECT id, username, password, nick_name, cell_phone, sign, picture_id,
+               sex, mail, birthday, status, account_type, invite_code, address,
+               create_user, create_time, update_user, update_time
+        FROM t_sys_user
+        WHERE username = #{userName} AND password =#{password}
+        LIMIT 1
+    </select>
+
+    <select id="selectUserRoleByUserId" resultType="cn.limexc.oneapi.pojo.RoleVO">
+        SELECT r.id, r.role_name, r.role_explain, r.create_user, r.create_time, r.update_user, r.update_time
+        FROM t_sys_role r
+        left join t_sys_user_role tsur on r.id = tsur.role_id
+        LEFT JOIN t_sys_user tsu  ON tsur.user_id = tsu.id
+        WHERE tsu.id = #{id}
+    </select>
+
+
+    <select id="selectRoleAuthByRoleIsd" resultType="cn.limexc.oneapi.pojo.AuthVO">
+        SELECT * FROM t_sys_auth tsa
+        LEFT JOIN t_sys_role_auth tsra on tsa.id = tsra.auth_id
+        LEFT JOIN t_sys_role tsr on tsra.role_id = tsr.id
+        WHERE tsr.id IN (${roleIds})
+    </select>
+
+</mapper>
