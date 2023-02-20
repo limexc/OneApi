@@ -14,10 +14,10 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: xxxxxxxx
+        server-addr: ${nacos_discovery}
       config:
-        group: DEFAULT_GROUP
-        server-addr: xxxxxxxxx
+        group: ${nacos_config_group}
+        server-addr: ${nacos_config_server}
   config:
     import:
-      - optional:nacos:xxxxxxx.yaml
+      - optional:nacos:${nacos_config}
