@@ -23,7 +23,7 @@ public class DetectDisgust {
         try {
             // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
             // 密钥可前往https://console.cloud.tencent.com/cam/capi网站进行获取
-            Credential cred = new Credential("AKIDKVSAvSmrhIemfJjvs78uRkqiMl12oMxJ", "B7pHVUFm6B2xd5HI4dxpb9TZsxoKelgP");
+            Credential cred = new Credential("", "");
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("tiia.tencentcloudapi.com");
@@ -40,7 +40,7 @@ public class DetectDisgust {
             // 输出json格式的字符串回包
             System.out.println(DetectDisgustResponse.toJsonString(resp));
         } catch (TencentCloudSDKException e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
     }
 }
