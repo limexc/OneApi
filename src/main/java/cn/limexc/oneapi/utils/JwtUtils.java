@@ -4,8 +4,10 @@
 
 package cn.limexc.oneapi.utils;
 
+import cn.limexc.oneapi.dto.UserDTO;
 import cn.limexc.oneapi.security.constant.SecurityConstants;
 import cn.limexc.oneapi.security.constant.UserRoleConstants;
+import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -93,14 +95,15 @@ public final class JwtUtils {
     public static Authentication getAuthentication(String token) {
         // 这里重写 通过验证后的token 通过redis获取相应的 权限
         Claims claims = getTokenBody(token);
-
-
         // 获取用户角色字符串
-        List<String> roles = (List<String>)claims.get(SecurityConstants.TOKEN_ROLE_CLAIM);
-        roles.add("一言");
+        // List<String> roles = (List<String>)claims.get(SecurityConstants.TOKEN_ROLE_CLAIM);
+        // 通过token从redis中获取权限相关信息
+        String userDataJson = RedisUtils.StringOps.get("ONEAPI_ONLINE_USER:"+token);
+        UserDTO user = JSONObject.parseObject(userDataJson,UserDTO.class);
+        List<String> auths = new ArrayList<>(user.getAuths());
         List<SimpleGrantedAuthority> authorities =
-                Objects.isNull(roles) ? Collections.singletonList(new SimpleGrantedAuthority(UserRoleConstants.ROLE_USER)) :
-                        roles.stream()
+                Objects.isNull(auths) ? Collections.singletonList(new SimpleGrantedAuthority(UserRoleConstants.ROLE_USER)) :
+                        auths.stream()
                                 .map(SimpleGrantedAuthority::new)
                                 .collect(Collectors.toList());
         // 获取用户ID

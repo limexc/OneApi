@@ -4,7 +4,6 @@
 
 package cn.limexc.oneapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Set;
@@ -17,18 +16,34 @@ import java.util.Set;
 @Data
 public class UserDTO {
 
+    /**
+     * 用户Id
+     */
     private String userId;
 
+    /**
+     * 用户名
+     */
     private String userName;
 
+    /**
+     * 昵称
+     */
     private String nickName;
 
+    /**
+     * email
+     */
     private String email;
 
+    /**
+     * 角色Id集合
+     */
     private Set<String> roles;
 
-    //使用@JsonIgnore注解，忽略此属性，前端不会拿到该属性
-    @JsonIgnore
+    /**
+     * 权限名称集合
+     */
     private Set<String> auths;
 
 }
