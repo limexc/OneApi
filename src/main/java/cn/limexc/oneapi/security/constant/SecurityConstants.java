@@ -4,6 +4,8 @@
 
 package cn.limexc.oneapi.security.constant;
 
+import cn.limexc.oneapi.config.properties.JwtProperties;
+
 /**
  * SecurityConstants
  *
@@ -27,7 +29,7 @@ public final class SecurityConstants {
      * 密钥生成地址：<br>
      * <a href="https://www.allkeysgenerator.com/">https://www.allkeysgenerator.com/</a>
      */
-    public static final String JWT_SECRET_KEY = "p2s5v8y/B?E(H+MbQeThVmYq3t6w9z$C&F)J@NcRfUjXnZr4u7x!A%D*G-KaPdS";
+    public static final String JWT_SECRET_KEY = JwtProperties.getJwtSecretKey();
 
 
     /**

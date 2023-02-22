@@ -29,11 +29,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 权限校验实现
+ *
+ * @author LIMEXC
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    SystemAuthMapper systemAuthMapper;
+    private SystemAuthMapper systemAuthMapper;
 
 
     /**

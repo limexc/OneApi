@@ -6,6 +6,7 @@ package cn.limexc.oneapi.utils;
 
 
 
+import cn.limexc.oneapi.config.properties.TencentProperties;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,10 +27,10 @@ import java.util.Map;
 @Slf4j
 public class IpToAddressUtils {
 
-    private static final String API_KEY = "xxxxxx";
+    private static final String ADDRESS_KEY = TencentProperties.getAddressKey();
 
     public static Map<String ,String > getCityInfo(String ip)  {
-        String s = sendGet(ip, API_KEY);
+        String s = sendGet(ip, ADDRESS_KEY);
         Map map = JSONObject.parseObject(s, Map.class);
         String message = (String) map.get("message");
         if("Success".equals(message)){
@@ -67,14 +68,14 @@ public class IpToAddressUtils {
                 result.append(line);
             }
         } catch (Exception e) {
-            log.error("发送GET请求出现异常！{}",e.getMessage(),e);
+            log.error("发送GET请求出现异常!{}",e.getMessage(),e);
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                log.error("关闭流异常!{}",e2.getMessage(),e2);
             }
         }
         return result.toString();
