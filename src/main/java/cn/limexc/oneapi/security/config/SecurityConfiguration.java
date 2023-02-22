@@ -38,9 +38,6 @@ import java.util.Collections;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-    @Autowired
-    private CorsFilter corsFilter;
-
     @Lazy
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -51,7 +48,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests()
                 // 配置无需权限即可访问的地址
                 // 所有V1版本接口无需设置权限拦截
-                .requestMatchers( "/v1/**").permitAll()
+                .requestMatchers("/v1/**").permitAll()
 //                .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
 //                .requestMatchers(HttpMethod.POST,"/v1/auth/register").permitAll()
 //                .requestMatchers(HttpMethod.POST,"/v1/auth/logout").permitAll()
@@ -78,12 +75,13 @@ public class SecurityConfiguration {
     /**
      * 获取AuthenticationManager（认证管理器），登录时认证使用
      *
-     * @param authenticationConfiguration
-     * @return
-     * @throws Exception
+     * @param authenticationConfiguration authenticationConfiguration
+     * @return AuthenticationManager
+     * @throws Exception Exception
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -92,7 +90,7 @@ public class SecurityConfiguration {
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/resources/**", "/static/**");
+        return (web) -> web.ignoring().requestMatchers("/resources/static/**", "/temp/**");
     }
 
     @Bean

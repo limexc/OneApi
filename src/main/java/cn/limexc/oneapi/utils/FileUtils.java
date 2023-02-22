@@ -4,7 +4,7 @@
 
 package cn.limexc.oneapi.utils;
 
-import cn.limexc.oneapi.config.S3Config;
+import cn.limexc.oneapi.config.properties.S3Properties;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -33,7 +33,7 @@ public class FileUtils {
     /**
      * default bucket
      */
-    private static final String BUCKET_NAME = S3Config.getBucketName();
+    private static final String BUCKET_NAME = S3Properties.getBucketName();
 
     private static final Integer MIN_THREAD_NUM = 1;
     private static final Integer MAX_THREAD_NUM = 5;
@@ -43,19 +43,19 @@ public class FileUtils {
     /**
      * 向 AWS 客户端明确提供凭证
      */
-    private static final BasicAWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(S3Config.getAccessKey(), S3Config.getSecretKey());
+    private static final BasicAWSCredentials AWS_CREDENTIALS = new BasicAWSCredentials(S3Properties.getAccessKey(), S3Properties.getSecretKey());
 
 
     private static final AmazonS3 S3 = AmazonS3ClientBuilder.standard()
             .withCredentials(new AWSStaticCredentialsProvider(AWS_CREDENTIALS))
-            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(S3Config.getEndpoint(), ""))
+            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(S3Properties.getEndpoint(), ""))
             .build();
 
 
     /**
      * 分段上传文件至S3
      *
-     * @param file
+     * @param file MultipartFile
      */
     public static void uploadMultipartFileByPart(MultipartFile file) {
         //声明线程池
@@ -118,7 +118,7 @@ public class FileUtils {
                     initResponse.getUploadId(), partETags);
             S3.completeMultipartUpload(compRequest);
             //删除本地缓存文件
-            toFile.delete();
+            Boolean isDelete = toFile.delete();
         } catch (Exception e) {
             S3.abortMultipartUpload(new AbortMultipartUploadRequest(BUCKET_NAME, fileName, initResponse.getUploadId()));
             log.error("Failed to upload, " + e.getMessage());

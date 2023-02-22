@@ -52,9 +52,10 @@ seniverse:
 
 # 腾讯云
 tencent:
-  appid: appid
-  SecretId: SecretId
-  SecretKey: SecretKey
+  appId: appid
+  secretId: SecretId
+  secretKey: SecretKey
+  addressKey: addressApiKey
 
 # B2文件存储
 backblaze:
@@ -64,6 +65,8 @@ backblaze:
     accessKey: accessKey
     SecretKey: accessKeySecret
 
+jwt:
+  jwtSecretKey: HS512算法的签名密钥
 
 task:
   enabled: true

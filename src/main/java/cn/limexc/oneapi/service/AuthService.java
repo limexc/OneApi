@@ -11,5 +11,5 @@ public interface AuthService {
 
     JwtUser authLogin(UserLoginDTO userLogin);
 
-    void logout();
+    Boolean logout(String token);
 }

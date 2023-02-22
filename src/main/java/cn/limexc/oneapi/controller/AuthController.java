@@ -4,11 +4,15 @@
 
 package cn.limexc.oneapi.controller;
 
+import cn.limexc.oneapi.annotation.SystemLog;
+import cn.limexc.oneapi.common.ResponseResult;
+import cn.limexc.oneapi.common.constant.StatusConstants;
 import cn.limexc.oneapi.dto.UserDTO;
 import cn.limexc.oneapi.dto.UserLoginDTO;
 import cn.limexc.oneapi.security.JwtUser;
 import cn.limexc.oneapi.security.constant.SecurityConstants;
 import cn.limexc.oneapi.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +33,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @SystemLog("登录")
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody UserLoginDTO userLogin) {
         // 用户登录认证
@@ -37,14 +42,23 @@ public class AuthController {
         HttpHeaders httpHeaders = new HttpHeaders();
         // 添加 token 前缀 "Bearer "
         httpHeaders.set(SecurityConstants.TOKEN_HEADER, SecurityConstants.TOKEN_PREFIX + jwtUser.getToken());
-
         return new ResponseEntity<>(jwtUser.getUser(), httpHeaders, HttpStatus.OK);
 
     }
 
+    @SystemLog("登出")
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-        authService.logout();
-        return ResponseEntity.ok().build();
+    public ResponseResult<String> logout(HttpServletRequest request) {
+        // 获取headers中的token
+        String authorization = request.getHeader(SecurityConstants.TOKEN_HEADER);
+        if (authorization == null || !authorization.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+            return new ResponseResult<>(StatusConstants.ERROR,"Error");
+        }
+        String token = authorization.replace(SecurityConstants.TOKEN_PREFIX, "");
+        Boolean delFlag = authService.logout(token);
+        if (delFlag){
+            return new ResponseResult<>(StatusConstants.OK,"Ok");
+        }
+        return new ResponseResult<>(StatusConstants.NOT_FOUND,"Not Found Online User");
     }
 }
