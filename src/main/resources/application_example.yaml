@@ -7,18 +7,26 @@ spring:
     url: jdbc:mysql://mysqlAddr:3306/info_center?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     password: password
     username: username
-    druid:
-      initial-size: 3
-      min-idle: 5
-      max-active: 20
-      filter:
-        stat:
-          log-slow-sql: true
-          slow-sql-millis: 5000
-      stat-view-servlet:
-        enabled: true
-        login-username: username
-        login-password: password
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 180000
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    druid:
+#      initial-size: 3
+#      min-idle: 3
+#      max-active: 15
+#      # 用来检测连接是否有效的sql
+#      validation-query: select 'x'
+#      filter:
+#        stat:
+#          log-slow-sql: true
+#          slow-sql-millis: 5000
+#      stat-view-servlet:
+#        enabled: true
+#        login-username: username
+#        login-password: password
+#        url-pattern: /druid/*
   data:
     redis:
       database: 10
