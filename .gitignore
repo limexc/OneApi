@@ -19,6 +19,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# 非公开文件
+.env
+
 # Package Files #
 *.jar
 *.war
