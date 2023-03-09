@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+target/
 
 # Log file
 *.log
@@ -13,13 +14,18 @@
 *.iml
 *.ipr
 
+### Eclipes ###
+.classpath
+.project
+.settings/
+
 ### VS Code ###
 .vscode/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# 非公开文件
+# 环境变量
 .env
 
 # Package Files #
