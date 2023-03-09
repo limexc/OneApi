@@ -14,7 +14,7 @@ target/
 *.iml
 *.ipr
 
-### Eclipes ###
+### Eclipse ###
 .classpath
 .project
 .settings/
