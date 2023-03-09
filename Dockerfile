@@ -1,4 +1,4 @@
-FROM openjdk:19
+FROM openjdk:17
 MAINTAINER Limexc
 EXPOSE 8082
 ARG JAR_FILE=*.jar
