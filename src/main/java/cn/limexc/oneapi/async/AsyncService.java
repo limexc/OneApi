@@ -6,7 +6,7 @@ package cn.limexc.oneapi.async;
 
 import cn.limexc.oneapi.mapper.SystemLogMapper;
 import cn.limexc.oneapi.pojo.SystemLogVO;
-import cn.limexc.oneapi.utils.IpUtils;
+import cn.limexc.oneapi.utils.IpAddrUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -25,8 +25,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-
-import static cn.limexc.oneapi.utils.IpToAddressUtils.getCityInfo;
 
 /**
  * @author LIMEXC
@@ -52,7 +50,7 @@ public class AsyncService {
 
         try {
             // 5.组装日志记录信息
-            String ip = IpUtils.getIpAddr(request);
+            String ip = IpAddrUtils.getIpAddr(request);
             userAgent(request, systemLog);
             ipToCity(ip, systemLog);
             systemLog.setIpAddr(ip);
@@ -111,7 +109,7 @@ public class AsyncService {
     }
 
     private void ipToCity(String ip, SystemLogVO systemLogVO) {
-        Map<String, String> addressInfo = getCityInfo(ip);
+        Map<String, String> addressInfo = IpAddrUtils.getCityInfo(ip);
         if (null != addressInfo) {
             String nation = addressInfo.get("nation");
             String province = addressInfo.get("province");

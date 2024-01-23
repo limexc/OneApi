@@ -4,19 +4,48 @@
 
 package cn.limexc.oneapi.utils;
 
+import cn.limexc.oneapi.config.properties.TencentProperties;
+import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.*;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * 获取IP的方法
- *
  */
 @Slf4j
-public class IpUtils {
+public class IpAddrUtils {
     private static final String LOCAL_IP = "127.0.0.1";
+
+    private static final String URL = "https://apis.map.qq.com/ws/location/v1/ip";
+
+    private static final String ADDRESS_KEY = TencentProperties.getAddressKey();
+
+    /**
+     * 根据在腾讯位置服务上申请的key进行请求操作
+     */
+    public static Map<String, String> getCityInfo(String ip) {
+        String resp = "";
+        try {
+            String param = "ip=" + ip + "&key=" + IpAddrUtils.ADDRESS_KEY;
+            resp = HttpUtils.doGet(URL, param);
+        } catch (Exception e) {
+            log.error("发送GET请求出现异常!{}", e.getMessage(), e);
+        }
+        Map map = JSONObject.parseObject(resp, Map.class);
+        String message = (String) map.get("message");
+        if ("Success".equals(message)) {
+            Map result = (Map) map.get("result");
+            return (Map) result.get("ad_info");
+        } else {
+            log.info(message);
+            return null;
+        }
+    }
+
 
     /**
      * 获取IP地址
@@ -49,7 +78,7 @@ public class IpUtils {
         return "0:0:0:0:0:0:0:1".equals(ip) ? LOCAL_IP : ip;
     }
 
-    public static boolean internalIp(String ip) {
+    private static boolean internalIp(String ip) {
         boolean res = false;
         byte[] addr = textToNumericFormatV4(ip);
         if (addr != null && ip != null) {
@@ -98,7 +127,7 @@ public class IpUtils {
      * @param text 需要格式化的文本
      * @return byte 字节
      */
-    public static byte[] textToNumericFormatV4(String text) {
+    private static byte[] textToNumericFormatV4(String text) {
         if (text.length() == 0) {
             return null;
         }
@@ -161,7 +190,7 @@ public class IpUtils {
                     return null;
             }
         } catch (NumberFormatException e) {
-            log.error("数字格式化异常",e);
+            log.error("数字格式化异常", e);
             return null;
         }
         return bytes;
@@ -175,7 +204,7 @@ public class IpUtils {
                 addr = InetAddress.getLocalHost();
                 ip = addr.getHostAddress();
             } catch (UnknownHostException e) {
-                log.error("获取失败",e);
+                log.error("获取失败", e);
             }
             return ip;
         } else {
@@ -197,7 +226,7 @@ public class IpUtils {
                     }
                 }
             } catch (SocketException e) {
-                log.error("获取失败",e);
+                log.error("获取失败", e);
             }
         }
         return "";
