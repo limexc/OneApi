@@ -63,7 +63,6 @@ public final class HttpUtils {
      * @param param param
      * @return 结果
      */
-
     public static String doGet(String url, String param) {
         if (param != null) {
             url = url + "?" + param;
@@ -98,7 +97,6 @@ public final class HttpUtils {
      *
      * @return Builder
      */
-
     private static Request.Builder getBuilder() {
         Request.Builder builder = new Request.Builder();
 
@@ -115,7 +113,6 @@ public final class HttpUtils {
      * @param param param
      * @return 请求结果
      */
-
     public static String doPost(String url, String param) {
 
         OkHttpClient okHttpClient = getClient();
@@ -153,7 +150,6 @@ public final class HttpUtils {
      * @param param param
      * @return 请求结果
      */
-
     public static String doDelete(String url, String param) {
 
         OkHttpClient okHttpClient = getClient();
@@ -195,7 +191,6 @@ public final class HttpUtils {
      * @param param param
      * @return 请求结果
      */
-
     public static String doPut(String url, String param) {
 
         OkHttpClient okHttpClient = getClient();
