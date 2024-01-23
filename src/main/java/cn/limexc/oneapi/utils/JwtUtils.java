@@ -107,9 +107,8 @@ public final class JwtUtils {
                                 .map(SimpleGrantedAuthority::new)
                                 .collect(Collectors.toList());
         // 获取用户ID
-        String userId = claims.getSubject();
-
-        return new UsernamePasswordAuthenticationToken(userId, token, authorities);
+        // String userId = claims.getSubject();
+        return new UsernamePasswordAuthenticationToken(user, token, authorities);
 
     }
 

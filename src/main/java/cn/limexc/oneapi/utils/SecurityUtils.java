@@ -4,6 +4,7 @@
 
 package cn.limexc.oneapi.utils;
 
+import cn.limexc.oneapi.dto.UserDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +39,6 @@ public class SecurityUtils {
                 .map(auth -> {
                     if (auth.getPrincipal() instanceof UserDetails) {
                         UserDetails userDetails = (UserDetails) auth.getPrincipal();
-
                         return userDetails.getUsername();
                     } else if (auth.getPrincipal() instanceof String) {
                         return (String) auth.getPrincipal();
@@ -48,4 +48,20 @@ public class SecurityUtils {
 
     }
 
+    /**
+     * 从上下问中获取当前用户基础信息
+     *
+     * @return UserDTO user
+     */
+    public static UserDTO getCurrentUser() {
+        // 获取上下文对象
+        SecurityContext context = SecurityContextHolder.getContext();
+        // 获取验证信息
+        Authentication authentication = context.getAuthentication();
+        UserDTO user = new UserDTO();
+        if (authentication instanceof UserDTO) {
+            user = (UserDTO) authentication.getPrincipal();
+        }
+        return user;
+    }
 }
